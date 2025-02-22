@@ -1,0 +1,26 @@
+# Apply 'bug' label if PR modifies any file in the 'src/' directory
+bug:
+  - "src/**"
+
+# Apply 'documentation' label for changes in the 'docs/' directory
+documentation:
+  - "docs/**"
+
+# Apply 'tests' label if any test file is changed
+tests:
+  - "tests/**"
+
+# Apply 'CI/CD' label for changes in GitHub Actions workflow files
+ci/cd:
+  - ".github/workflows/**"
+
+# Apply 'dependencies' label for updates to package files
+dependencies:
+  - "package.json"
+  - "requirements.txt"
+
+# Apply 'config' label for changes in YAML and config files
+config:
+  - "**/*.yml"
+  - "**/*.yaml"
+  - "**/*.json"
