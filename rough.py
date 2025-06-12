@@ -4,3 +4,5 @@ lst2=(list(remove_duplicates))
 
 print(type(lst2))
 print(lst2)
+print(lst1)
+print(lst1 == lst2)  # This will print True if duplicates were removed
