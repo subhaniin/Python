@@ -9,3 +9,8 @@ print(lst1 == lst2)  # This will print True if duplicates were removed
 print(lst1 is lst2)  # This will print False because they are different objects
 print(lst1 is lst1)  # This will print True because they are the same object    
 print(lst2 is lst2)  # This will print True because they are the same object 
+
+if (True):  # This will always execute
+    print("This will always execute")
+else:
+    print("This will never execute")  # This will never execute
