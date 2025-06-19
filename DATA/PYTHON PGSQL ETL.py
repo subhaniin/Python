@@ -36,3 +36,5 @@ df['loaded_at'] = datetime.now()
 df.to_sql('etl_employees', target_engine, if_exists='replace', index=False)
 
 print("✅ ETL completed: 'employees' → 'etl_employees'")
+
+#This script extract data from DemoDB employees table and load it to etl_load.etl_employees table.
