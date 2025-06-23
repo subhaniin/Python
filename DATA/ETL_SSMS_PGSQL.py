@@ -4,6 +4,13 @@ import urllib.parse
 
 # ----- SQL Server connection -----
 import urllib
+import os
+
+pg_user = os.getenv("PGUID")        # 'postgres'
+pg_pass = os.getenv("PGPWD")        # 'Pqsql'
+pg_host = "localhost"
+pg_port = 5432
+pg_db   = "etl_load"
 
 mssql_params = urllib.parse.quote_plus(
     "Driver={ODBC Driver 17 for SQL Server};"
@@ -15,8 +22,8 @@ mssql_params = urllib.parse.quote_plus(
 mssql_engine = create_engine(f"mssql+pyodbc:///?odbc_connect={mssql_params}")
 
 # ----- PostgreSQL connection -----
-pg_engine = create_engine(
-    "postgresql+psycopg2://postgres:Pqsql@localhost:5432/etl_load"
+pg_engine = create_engine(f"postgresql+psycopg2://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}"
+
 )
 
 # ----- Extract -----

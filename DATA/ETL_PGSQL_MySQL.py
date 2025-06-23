@@ -2,11 +2,25 @@ import pandas as pd
 from sqlalchemy import create_engine
 import urllib.parse
 
-# ----- PostgreSQL Source -----
-pg_engine = create_engine("postgresql+psycopg2://postgres:Pqsql@localhost:5432/etl_load")
+import os
 
-# ----- MySQL Target -----
-mysql_engine = create_engine("mysql+pymysql://root:Sql%403690@127.0.0.1:3306/etl_load")
+# PostgreSQL
+pg_user = os.getenv("PGUID")        # 'postgres'
+pg_pass = os.getenv("PGPWD")        # 'Pqsql'
+pg_host = "localhost"
+pg_port = 5432
+pg_db   = "etl_load"
+
+pg_engine = create_engine(f"postgresql+psycopg2://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}")
+
+# MySQL
+mysql_user = os.getenv("MysqlUID")  # 'root'
+mysql_pass = os.getenv("MysqlPWD")  # 'Sql%403690'
+mysql_host = "127.0.0.1"
+mysql_port = 3306
+mysql_db   = "etl_load"
+
+mysql_engine = create_engine(f"mysql+pymysql://{mysql_user}:{mysql_pass}@{mysql_host}:{mysql_port}/{mysql_db}")
 
 # ----- Extract -----
 df = pd.read_sql("SELECT * FROM \"KYC_clean\"", pg_engine)
