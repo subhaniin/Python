@@ -1,48 +1,53 @@
+import pandas as pd
 from sqlalchemy import create_engine
-import urllib.parse, os
+import urllib.parse
 
-# ---------- SQL Server (source) ----------
+# ----- SQL Server connection -----
+import urllib
+
 mssql_params = urllib.parse.quote_plus(
     "Driver={ODBC Driver 17 for SQL Server};"
-    "Server=YOUR_SQLSERVER_HOST;Database=YOUR_DB;"
-    "UID=YOUR_USER;PWD=YOUR_PWD;"
+    "Server=SUBHANIDEAPAD\\SQLEXPRESS;"
+    "Database=MYDBSSMS;"
+    "Trusted_Connection=yes;"
 )
+
 mssql_engine = create_engine(f"mssql+pyodbc:///?odbc_connect={mssql_params}")
-# docs: dialect+driver://user:pass@dsn  :contentReference[oaicite:0]{index=0}
 
-# ---------- PostgreSQL (target) ----------
+# ----- PostgreSQL connection -----
 pg_engine = create_engine(
-    "postgresql+psycopg2://PG_USER:PG_PWD@PG_HOST:5432/PG_DB"
+    "postgresql+psycopg2://postgres:Pqsql@localhost:5432/etl_load"
 )
 
-from sqlalchemy import create_engine
-import urllib.parse, os
+# ----- Extract -----
+df = pd.read_sql("SELECT * FROM KYC", mssql_engine)
 
-# ---------- SQL Server (source) ----------
-mssql_params = urllib.parse.quote_plus(
-    "Driver={ODBC Driver 17 for SQL Server};"
-    "Server=YOUR_SQLSERVER_HOST;Database=YOUR_DB;"
-    "UID=YOUR_USER;PWD=YOUR_PWD;"
-)
-mssql_engine = create_engine(f"mssql+pyodbc:///?odbc_connect={mssql_params}")
-# docs: dialect+driver://user:pass@dsn  :contentReference[oaicite:0]{index=0}
+# ----- Transform -----
 
-# ---------- PostgreSQL (target) ----------
-pg_engine = create_engine(
-    "postgresql+psycopg2://PG_USER:PG_PWD@PG_HOST:5432/PG_DB"
-)
+# 1. Split Name
+names = names = df["Name"].str.split(" ", n=1, expand=True)
+df["first_name"] = names[0]
+df["last_name"] = names[1]
 
-# split on the first space only
-first_last = df["Name"].str.split(" ", 1, expand=True)
-df["first_name"] = first_last[0]
-df["last_name"]  = first_last[1]            # NaN if nothing after first name
-df = df.drop(columns=["Name"])
+# 2. Split Address
+# Example format:
+# "2-95, 1st street, rayudupalem, kakinada rural, kakinada district, 533006, Andhra Pradesh, India"
+address_parts = df["address"].str.split(",", expand=True)
 
-df.to_sql(
-    "demo_table_clean",          # new table name in Postgres
-    pg_engine,
-    if_exists="replace",         # or "append" / "fail"
-    index=False,
-)
+df["address_clean"] = address_parts[[0,1,2,3,4]].apply(lambda x: ", ".join(x.dropna().str.strip()), axis=1)
+df["pincode"] = address_parts[5].str.strip()
+df["state"] = address_parts[6].str.strip()
 
-print(pd.read_sql("SELECT * FROM demo_table_clean", pg_engine).head())
+# Optional: remove "India" column if it exists
+if address_parts.shape[1] > 7:
+    df["country"] = address_parts[7].str.strip()
+
+# Drop old Name and Address columns
+df = df.drop(columns=["Name", "address"])
+
+# Reorder columns if needed
+df = df[["ID", "first_name", "last_name", "age", "address_clean", "pincode", "state"] + (["country"] if "country" in df.columns else [])]
+
+# ----- Load -----
+df.to_sql("kyc_clean", pg_engine, if_exists="replace", index=False)
+print("Data loaded successfully into PostgreSQL.")
