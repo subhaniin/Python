@@ -1,0 +1,11 @@
+#SSMS
+SUBHANIDEAPAD\SQLEXPRESS
+
+#PGSQL
+PostgreSQL 17
+uid = 'postgres'
+pwd = 'Pqsql'
+host = 'localhost'      # Change to your host if different
+port = '5432' 
+
+#MySQL
