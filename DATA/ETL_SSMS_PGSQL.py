@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 import urllib.parse
-import datetime
+import datetime as dt
 # ----- SQL Server connection -----
 import urllib
 import os
@@ -44,7 +44,7 @@ address_parts = df["address"].str.split(",", expand=True)
 df["address_clean"] = address_parts[[0,1,2,3,4]].apply(lambda x: ", ".join(x.dropna().str.strip()), axis=1)
 df["pincode"] = address_parts[5].str.strip()
 df["state"] = address_parts[6].str.strip()
-df["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+df["timestamp"] = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Optional: remove "India" column if it exists
 if address_parts.shape[1] > 7:
