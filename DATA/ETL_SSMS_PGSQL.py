@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 import urllib.parse
-
+import datetime
 # ----- SQL Server connection -----
 import urllib
 import os
@@ -44,6 +44,7 @@ address_parts = df["address"].str.split(",", expand=True)
 df["address_clean"] = address_parts[[0,1,2,3,4]].apply(lambda x: ", ".join(x.dropna().str.strip()), axis=1)
 df["pincode"] = address_parts[5].str.strip()
 df["state"] = address_parts[6].str.strip()
+df["timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Optional: remove "India" column if it exists
 if address_parts.shape[1] > 7:
@@ -53,7 +54,7 @@ if address_parts.shape[1] > 7:
 df = df.drop(columns=["Name", "address"])
 
 # Reorder columns if needed
-df = df[["ID", "first_name", "last_name", "age", "address_clean", "pincode", "state"] + (["country"] if "country" in df.columns else [])]
+df = df[["ID", "first_name", "last_name", "age", "address_clean", "pincode", "state"] + (["country"] if "country" in df.columns else [])+ ["timestamp"]]
 
 # ----- Load -----
 df.to_sql("kyc_clean", pg_engine, if_exists="replace", index=False)
