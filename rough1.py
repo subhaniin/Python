@@ -23,3 +23,6 @@ print()
 print(f"add:{r[0]}","\n",f"Substract{[1]}","\n",r[2],"\n",r[3])  # This will print the results of the operations
 print()
 print(f"Add: {r[0]}, Subtract: {r[1]}, Multiply: {r[2]}, Divide: {r[3]}")
+
+import datetime as dt
+print(dt.datetime.now().strftime("%Y-%m-%d  %H:%M:%S%p"))  # Print current date and time in a specific formats
