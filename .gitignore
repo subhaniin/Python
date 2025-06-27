@@ -3,3 +3,4 @@ temp.py
 parameters.txt
 
 #test
+#PASS, 'not showing in git status'
