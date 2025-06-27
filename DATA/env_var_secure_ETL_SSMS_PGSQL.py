@@ -6,8 +6,8 @@ import datetime as dt
 import urllib
 import os
 
-pg_user = os.getenv("PGUID")        # 'postgres'
-pg_pass = os.getenv("PGPWD")        # 'Pqsql'
+pg_user = os.getenv("PGUID")
+pg_pass = os.getenv("PGPWD")
 pg_host = "localhost"
 pg_port = 5432
 pg_db   = "etl_load"

@@ -5,8 +5,8 @@ import urllib.parse
 import os
 
 # PostgreSQL
-pg_user = os.getenv("PGUID")        # 'postgres'
-pg_pass = os.getenv("PGPWD")        # 'Pqsql'
+pg_user = os.getenv("PGUID")
+pg_pass = os.getenv("PGPWD")
 pg_host = "localhost"
 pg_port = 5432
 pg_db   = "etl_load"
@@ -14,8 +14,8 @@ pg_db   = "etl_load"
 pg_engine = create_engine(f"postgresql+psycopg2://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}")
 
 # MySQL
-mysql_user = os.getenv("MysqlUID")  # 'root'
-mysql_pass = os.getenv("MysqlPWD")  # 'Sql%403690'
+mysql_user = os.getenv("MysqlUID")
+mysql_pass = os.getenv("MysqlPWD")
 mysql_host = "127.0.0.1"
 mysql_port = 3306
 mysql_db   = "etl_load"
