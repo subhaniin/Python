@@ -16,6 +16,7 @@ mysql_pass = getpass.getpass("Enter MySQL Password: ")
 mysql_host = "localhost"  # Default MySQL host
 mysql_port = 3306  # Default MySQL port
 mysql_db   = "etl_load"
+pg_pass = urllib.parse.quote_plus(pg_pass) # URL encode the password for PostgreSQL connection
 mysql_pass = urllib.parse.quote_plus(mysql_pass)# # URL encode the password for MySQL connection
 
 # ----- postgresql connection -----
