@@ -18,7 +18,7 @@ mssql_params = urllib.parse.quote_plus(
     "Database=MYDBSSMS;"
     "Trusted_Connection=yes;"
 )
-mssql_engine = create_engine(f"mssql+pyodbc://?odbc_connect={mssql_params}")
+mssql_engine = create_engine(f"mssql+pyodbc:///?odbc_connect={mssql_params}")
 
 # ----- PostgreSQL connection -----
 pg_engine = create_engine(f"postgresql+psycopg2://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}")
