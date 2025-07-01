@@ -1,13 +1,14 @@
-from sqlalchemy import create_engine;import pandas as pd
+from sqlalchemy import create_engine;import pandas as pd;import datetime as dt
 
 userID= 'postgres';PWD= 'Pqsql'
 
-print(pd.read_sql('select * from employees', create_engine('postgresql+psycopg2://postgres:Pqsql@localhost:5432/DemoDB'))[['emp_id', 'emp_name']].assign(**{
-    'First Name': lambda df: df['emp_name'].str.upper().str.split(' ', expand=True)[0],
-    'Last Name': lambda df: df['emp_name'].str.upper().str.split(' ', expand=True)[1]
-})[['emp_id', 'First Name', 'Last Name', 'emp_name']].rename(columns={'emp_name': 'Full Name'}))
-# This code connects to a PostgreSQL database, retrieves employee data, and processes it to extract first and last names.
-# It uses SQLAlchemy to create a database engine and pandas to read the SQL query result into a DataFrame.
-# The DataFrame is then modified to include separate columns for first and last names, and the final output is displayed with specific columns renamed for clarity.
-# The code assumes that the PostgreSQL server is running locally on port 5432 and that the database name is 'DemoDB'.
-# The 'emp_name' column is expected to contain full names in the format "First Last".
+pg_engine = create_engine(f"postgresql+psycopg2://{userID}:{PWD}@localhost:5432/DemoDB")
+df=pd.read_sql('select emp_id,emp_name from employees', pg_engine);#print(df)
+df[['emp_first_name', 'emp_last_name']] = df['emp_name'].str.title().str.split(' ', n=1, expand=True)
+df['full_name'] = df['emp_name'].str.title()
+import pytz
+df['timestamp_Kolkata'] = dt.datetime.now(pytz.timezone('Asia/Kolkata'))
+df=df[['emp_id', 'emp_first_name', 'emp_last_name', 'full_name','timestamp_Kolkata']]
+print(df)
+df.to_sql('emp_etl_name_split', pg_engine, if_exists='replace', index=False)
+print('------------------Data load succeeeded-------------------')
