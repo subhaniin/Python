@@ -10,12 +10,14 @@ KEY_TO_NOTE = {
     b'g': ("G4", 392),
     b'h': ("A4", 440),
     b'j': ("B4", 494),
+    b'k': ("C5", 530),
+    b'l': ("D5", 555)
 }
 
-NOTE_DURATION_MS = 300  # how long each note plays (in milliseconds)
+NOTE_DURATION_MS = 500  # how long each note plays (in milliseconds)
 
 print("Simple Python Piano 🎹")
-print("Press keys: a s d f g h j for C D E F G A B")
+print("Press keys: a s d f g h j k l for C D E F G A B C D")
 print("Press q to quit.")
 
 while True:
@@ -32,5 +34,4 @@ while True:
         winsound.Beep(freq, NOTE_DURATION_MS)
     else:
         # Ignore other keys
-        print("That key doesn't play a note. Use a s d f g h j or q to quit.")
-aa
+        print("That key doesn't play a note. Use a s d f g h j k l or q to quit.")
