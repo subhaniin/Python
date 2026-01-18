@@ -1,6 +1,6 @@
 def math():
-	a=input(" ")
-	b=input(" ")
+	a=int(input("please enter a number "))
+	b=int(input("please enter another number "))
 	print(f"add=int({a+b})")
 	print(f"sub=int({a-b})")
 	print(f"mul=int({a*b})")
