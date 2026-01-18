@@ -1,16 +1,11 @@
-lst1 = [1,1,2,2,3,3,4,5,6,7,8,9]
-remove_duplicates = set(lst1)
-lst2=(list(remove_duplicates))
+lst1=[0,1,2,3,4,5,6,7,8,9]
+lst2=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y', 'z']
+b = ''.join(lst2)
+c=b.upper()
+lst3=list(c)
+print(lst3)
+print(c)
 
-print(type(lst2))
-print(lst2)
-print(lst1)
-print(lst1 == lst2)  # This will print True if duplicates were removed      
-print(lst1 is lst2)  # This will print False because they are different objects
-print(lst1 is lst1)  # This will print True because they are the same object    
-print(lst2 is lst2)  # This will print True because they are the same object 
-
-if (True):  # This will always execute
-    print("This will always execute")
-else:
-    print("This will never execute")  # This will never execute
+lst1 = list(range(26))
+mapping = dict(zip(lst1, lst3))
+print(mapping)
