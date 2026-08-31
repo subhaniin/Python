@@ -10,6 +10,6 @@ def math():
 		print(f"div=int({a / b})")
 while True:	
 	math()
-	choice=int(input("enter 0 to exit"))
-	if choice==0:
+	choice=input("enter 0 to exit")
+	if choice=="0":
 		break
